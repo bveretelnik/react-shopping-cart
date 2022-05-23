@@ -47,12 +47,19 @@ const App = () => {
     setCartItems((prev) => {
       return prev.reduce((acc, cur) => {
         if (cur.id === id) {
-          if (cur.amount === 1) return acc;
+          if (cur.amount === 1) {
+            return acc;
+          }
           return [...acc, { ...cur, amount: cur.amount - 1 }];
         } else {
           return [...acc, cur];
         }
       }, [] as CartItemType[]);
+    });
+  };
+  const handleDeleteFromCard = (id: number) => {
+    setCartItems((prev) => {
+      return prev.filter((item) => item.id !== id);
     });
   };
 
@@ -66,6 +73,7 @@ const App = () => {
           cartItems={cartItems}
           addToCart={handleAddToCart}
           removeFromCart={handleRemoveFromCart}
+          deleteFromCart={handleDeleteFromCard}
         />
       </Drawer>
       <StyledButton onClick={() => setCartOpen(true)}>
@@ -73,6 +81,7 @@ const App = () => {
           <AddShoppingCartIcon />
         </Badge>
       </StyledButton>
+
       <Grid container spacing={3}>
         {data?.map((item) => (
           <Grid item key={item.id} xs={12} sm={4}>
